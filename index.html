@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 11 Experience — Uma Nova Era</title>
+    <meta name="description" content="Descubra o Windows 11: recursos, processadores compatíveis, comparativo com Windows 10 e dicas de otimização do 1155 do ET.">
+    <link rel="icon" href="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="win-grid-bg"></div>
+    <div class="ambient-bg"></div>
+    <div class="particles-container" id="particles"></div>
+
+    <!-- ============ DENIED OVERLAY ============ -->
+    <div class="denied-overlay" id="deniedOverlay">
+        <div style="text-align:center; max-width:420px;">
+            <div style="width:90px;height:90px;border-radius:50%;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+                <i class="fas fa-shield-alt" style="font-size:36px;color:#ef4444;"></i>
+            </div>
+            <h2 style="color:white;font-size:24px;font-weight:800;margin-bottom:10px;letter-spacing:-0.5px;">Acesso Negado</h2>
+            <p style="color:rgba(255,255,255,0.35);font-size:13px;line-height:1.8;margin-bottom:8px;">Você recusou os Termos de Uso e Política de Privacidade.</p>
+            <p style="color:rgba(255,255,255,0.2);font-size:11px;line-height:1.8;margin-bottom:28px;">É obrigatório aceitar os termos para acessar este site. Sem sua concordância, não podemos exibir o conteúdo.</p>
+            <button onclick="location.reload()" class="gate-btn gate-btn-primary" style="max-width:280px;margin:0 auto;">
+                <i class="fas fa-redo"></i> Voltar e Aceitar os Termos
+            </button>
+        </div>
+    </div>
+
+    <!-- ============ GATE OVERLAY ============ -->
+    <div class="gate-overlay" id="gateOverlay">
+        <div class="gate-box">
+            <div class="gate-header">
+                <div style="position:relative;display:inline-block;margin-bottom:14px;">
+                    <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" alt="Windows 11" style="width:44px;height:44px;filter:drop-shadow(0 0 25px rgba(0,120,212,0.5));">
+                    <div class="logo-ring" style="width:60px;height:60px;top:-8px;left:50%;margin-left:-30px;"></div>
+                </div>
+                <div class="step-indicators" id="stepIndicators">
+                    <div class="step-dot active" id="step1dot"></div>
+                    <div class="step-dot" id="step2dot"></div>
+                    <div class="step-dot" id="step3dot"></div>
+                </div>
+                <h2 style="color:white;font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-0.3px;" id="gateTitle">Termos de Uso</h2>
+                <p style="color:rgba(255,255,255,0.22);font-size:10.5px;" id="gateSubtitle">Leia e aceite para continuar — Etapa 1 de 3</p>
+            </div>
+            <div class="gate-content">
+                <!-- STEP 1: Terms -->
+                <div id="step1">
+                    <div class="flex gap-2 mb-3">
+                        <button class="terms-tab active" onclick="showTermsTab('termos', this)"><i class="fas fa-file-contract"></i> Termos de Uso</button>
+                        <button class="terms-tab" onclick="showTermsTab('privacidade', this)"><i class="fas fa-user-shield"></i> Privacidade</button>
+                    </div>
+                    <div class="scroll-track"><div class="scroll-track-fill" id="termsProgress"></div></div>
+                    <div class="terms-scroll" id="termsScroll" onscroll="updateTermsProgress()">
+                        <div id="termsContent">
+                            <h4><i class="fas fa-gavel"></i> 1. Aceitação dos Termos</h4>
+                            <p>Ao acessar e utilizar este site, você concorda integralmente com os presentes Termos de Uso. Caso não concorde com qualquer cláusula, <strong>não utilize este site</strong>. O acesso está condicionado à aceitação total e irrestrita destes termos.</p>
+                            <h4><i class="fas fa-info-circle"></i> 2. Natureza do Conteúdo</h4>
+                            <p>Este site é um <strong>projeto informativo não oficial</strong> e independente sobre o sistema operacional Windows 10 e Windows 11 da Microsoft Corporation. Todo o conteúdo aqui apresentado é de caráter educativo e informativo.</p>
+                            <ul><li>As informações são baseadas em dados públicos e podem sofrer alterações sem aviso prévio.</li><li>Não garantimos a precisão absoluta de todas as informações apresentadas.</li><li>Recomendamos sempre verificar dados oficiais no site da Microsoft.</li></ul>
+                            <h4><i class="fas fa-copyright"></i> 3. Propriedade Intelectual</h4>
+                            <p>Windows, Windows 10, Windows 11, Microsoft e todas as marcas relacionadas são <strong>propriedade da Microsoft Corporation</strong>. Este site não tem qualquer vínculo oficial, afiliação ou endosso da Microsoft.</p>
+                            <ul><li>Os logotipos e marcas registradas pertencem aos seus respectivos proprietários.</li><li>O conteúdo de vídeo incorporado pertence aos seus criadores originais no YouTube.</li><li>O canal "1155 do ET" é um canal independente do YouTube.</li></ul>
+                            <h4><i class="fas fa-video"></i> 4. Conteúdo de Terceiros</h4>
+                            <p>Este site incorpora vídeos e conteúdos de terceiros, especialmente do YouTube. Ao assistir esses vídeos, você também estará sujeito aos <strong>Termos de Serviço do YouTube/Google</strong>.</p>
+                            <h4><i class="fas fa-exclamation-triangle"></i> 5. Isenção de Responsabilidade</h4>
+                            <p>Não nos responsabilizamos por:</p>
+                            <ul><li>Danos causados pela aplicação de dicas ou procedimentos mencionados nos vídeos.</li><li>Problemas resultantes da instalação do Windows em hardware não oficialmente suportado.</li><li>Perda de dados, falhas de sistema ou qualquer outro dano direto ou indireto.</li><li>Conteúdo de sites externos linkados a partir desta página.</li></ul>
+                            <h4><i class="fas fa-laptop"></i> 6. Uso do Site</h4>
+                            <p>O usuário compromete-se a utilizar o site de forma ética e legal, sendo proibido:</p>
+                            <ul><li>Tentar acessar áreas restritas ou burlar mecanismos de segurança.</li><li>Reproduzir o conteúdo sem autorização prévia.</li><li>Utilizar o site para fins comerciais sem permissão.</li></ul>
+                            <h4><i class="fas fa-sync"></i> 7. Modificações</h4>
+                            <p>Reservamo-nos o direito de <strong>modificar estes termos a qualquer momento</strong>, sem aviso prévio.</p>
+                            <h4><i class="fas fa-balance-scale"></i> 8. Lei Aplicável</h4>
+                            <p>Estes termos são regidos pelas leis da República Federativa do Brasil.</p>
+                            <p style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.18);font-size:10px;"><i class="fas fa-calendar"></i> Última atualização: Janeiro 2025</p>
+                        </div>
+                        <div id="privacidadeContent" style="display:none;">
+                            <h4><i class="fas fa-shield-alt"></i> 1. Introdução</h4>
+                            <p>Esta Política de Privacidade descreve como tratamos as informações durante sua visita. Respeitamos sua privacidade e estamos comprometidos com a <strong>proteção dos seus dados</strong>, em conformidade com a LGPD.</p>
+                            <h4><i class="fas fa-database"></i> 2. Dados Coletados</h4>
+                            <p>Este site <strong>NÃO coleta dados pessoais identificáveis</strong>.</p>
+                            <ul><li>Não utilizamos formulários de cadastro ou login.</li><li>Não coletamos nome, e-mail, telefone ou qualquer dado pessoal.</li><li>O captcha é processado localmente no seu navegador.</li></ul>
+                            <h4><i class="fas fa-cookie-bite"></i> 3. Cookies</h4>
+                            <p>Os embeds do YouTube podem definir seus próprios cookies. Consulte a Política de Privacidade do Google/YouTube.</p>
+                            <h4><i class="fas fa-share-alt"></i> 4. Compartilhamento</h4>
+                            <p><strong>Não compartilhamos, vendemos ou transferimos</strong> quaisquer dados a terceiros.</p>
+                            <h4><i class="fas fa-lock"></i> 5. Segurança</h4>
+                            <p>Empregamos medidas razoáveis para proteger as informações processadas neste site.</p>
+                            <h4><i class="fas fa-child"></i> 6. Menores de Idade</h4>
+                            <p>Este site não é direcionado a menores de 13 anos.</p>
+                            <h4><i class="fas fa-user-check"></i> 7. Seus Direitos (LGPD)</h4>
+                            <p>Como não coletamos dados pessoais, os direitos previstos na LGPD são automaticamente atendidos.</p>
+                            <h4><i class="fas fa-envelope"></i> 8. Contato</h4>
+                            <p>Para dúvidas sobre esta política, entre em contato através dos canais disponíveis.</p>
+                            <p style="margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.18);font-size:10px;"><i class="fas fa-calendar"></i> Última atualização: Janeiro 2025</p>
+                        </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+                        <label class="checkbox-custom"><input type="checkbox" id="acceptTerms" onchange="updateAcceptBtn()"><span class="checkbox-mark"><i class="fas fa-check"></i></span><span style="font-size:11.5px;color:rgba(255,255,255,0.45);">Li e aceito os <strong style="color:#60a5fa;">Termos de Uso</strong></span></label>
+                        <label class="checkbox-custom"><input type="checkbox" id="acceptPrivacy" onchange="updateAcceptBtn()"><span class="checkbox-mark"><i class="fas fa-check"></i></span><span style="font-size:11.5px;color:rgba(255,255,255,0.45);">Li e aceito a <strong style="color:#a78bfa;">Política de Privacidade</strong></span></label>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button onclick="declineTerms()" class="gate-btn gate-btn-danger" style="flex:1;padding:13px;font-size:12px;"><i class="fas fa-times"></i> Não Aceito</button>
+                        <button onclick="acceptTermsStep()" class="gate-btn gate-btn-primary" style="flex:2;" id="acceptBtn" disabled><i class="fas fa-check-double"></i> Aceito e Concordo</button>
+                    </div>
+                </div>
+                <!-- STEP 2: Captcha -->
+                <div id="step2" style="display:none;">
+                    <div style="margin-bottom:14px;" onclick="generateCaptcha()" title="Clique para novo código" class="cursor-pointer">
+                        <canvas id="captchaCanvas" width="480" height="65"></canvas>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                        <input type="text" id="captchaInput" class="captcha-input" placeholder="CÓDIGO" maxlength="5" autocomplete="off">
+                        <button onclick="generateCaptcha()" class="refresh-btn" title="Novo captcha"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <p id="captchaMsg" style="font-size:11px;text-align:center;margin-bottom:12px;height:16px;"></p>
+                    <button onclick="verifyCaptcha()" class="gate-btn gate-btn-primary"><i class="fas fa-shield-alt"></i> Verificar e Acessar</button>
+                    <button onclick="goToStep(1)" style="width:100%;padding:11px;border:none;background:none;color:rgba(255,255,255,0.2);font-size:10px;cursor:pointer;margin-top:6px;transition:color 0.3s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'"><i class="fas fa-arrow-left"></i> Voltar aos termos</button>
+                </div>
+                <!-- STEP 3: Success -->
+                <div id="step3" style="display:none;text-align:center;padding:24px 0;">
+                    <div style="width:76px;height:76px;border-radius:50%;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:successPop 0.5s cubic-bezier(0.4,0,0.2,1);">
+                        <i class="fas fa-check" style="font-size:30px;color:#22c55e;"></i>
+                    </div>
+                    <h3 style="color:white;font-size:18px;font-weight:800;margin-bottom:5px;">Acesso Liberado!</h3>
+                    <p style="color:rgba(255,255,255,0.25);font-size:11.5px;">Bem-vindo ao Windows 11 Experience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ MOBILE NAV ============ -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#inicio" onclick="closeMobile()">Início</a>
+        <a href="#recursos" onclick="closeMobile()">Recursos</a>
+        <a href="#video" onclick="closeMobile()">Vídeos</a>
+        <a href="#processadores" onclick="closeMobile()">CPUs</a>
+        <a href="#comparativo" onclick="closeMobile()">Comparativo</a>
+        <a href="#canal" onclick="closeMobile()">Canal</a>
+        <a href="#timeline" onclick="closeMobile()">Timeline</a>
+        <button onclick="closeMobile()" style="margin-top:14px;background:none;border:1px solid rgba(255,255,255,0.05);color:white;padding:11px 28px;border-radius:12px;cursor:pointer;font-size:12px;"><i class="fas fa-times mr-2"></i>Fechar</button>
+    </div>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" alt="Win11" style="width:24px;height:24px;filter:drop-shadow(0 0 10px rgba(0,120,212,0.4));">
+                <span class="text-white font-bold text-sm tracking-wide">Windows</span>
+                <span style="font-size:8px;padding:2px 7px;border-radius:20px;background:rgba(0,120,212,0.06);color:#60a5fa;font-weight:700;border:1px solid rgba(0,120,212,0.08);">11</span>
+            </div>
+            <div class="desktop-nav flex items-center gap-0.5">
+                <a href="#inicio" class="nav-link">Início</a>
+                <a href="#recursos" class="nav-link">Recursos</a>
+                <a href="#video" class="nav-link">Vídeos</a>
+                <a href="#processadores" class="nav-link">CPUs</a>
+                <a href="#comparativo" class="nav-link">Comparativo</a>
+                <a href="#canal" class="nav-link">Canal</a>
+                <a href="#timeline" class="nav-link">Timeline</a>
+            </div>
+            <div class="desktop-cta flex items-center gap-2">
+                <a href="https://www.youtube.com/@1155doet" target="_blank" style="width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid rgba(239,68,68,0.15);transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(239,68,68,0.4)';this.style.boxShadow='0 0 15px rgba(239,68,68,0.15)'" onmouseout="this.style.borderColor='rgba(239,68,68,0.15)';this.style.boxShadow='none'">
+                    <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="1155 do ET" style="width:100%;height:100%;object-fit:cover;">
+                </a>
+                <a href="#video" class="btn-win btn-primary text-xs py-2 px-4"><i class="fas fa-play"></i> Assistir</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobile()"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+        <div class="text-center relative z-10 px-6 max-w-4xl mx-auto">
+            <div class="mb-5">
+                <div class="hero-badge mb-7"><span class="dot"></span> Nova Experiência Disponível</div>
+            </div>
+            <div class="mb-7 relative inline-block">
+                <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" alt="Windows 11 Logo" class="win-logo-hero mx-auto">
+                <div class="logo-ring" style="width:150px;height:150px;top:-15px;left:50%;margin-left:-75px;"></div>
+                <div class="logo-ring" style="width:200px;height:200px;top:-40px;left:50%;margin-left:-100px;animation-delay:-2s;"></div>
+                <div class="logo-ring" style="width:250px;height:250px;top:-65px;left:50%;margin-left:-125px;animation-delay:-4s;"></div>
+            </div>
+            <h1 class="hero-title mb-4 glitch" data-text="Windows 11">Windows 11</h1>
+            <p class="text-sm md:text-base max-w-lg mx-auto mb-2 font-light leading-relaxed" style="color:rgba(255,255,255,0.32);">
+                Uma nova era para o seu PC. <span class="typing-text" id="typingText"></span>
+            </p>
+            <p style="font-size:11.5px;color:rgba(255,255,255,0.15);max-width:420px;margin:0 auto 32px;line-height:1.8;">
+                O sistema operacional mais moderno, seguro e elegante da Microsoft. Redesenhado do zero para a nova geração.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="#video" class="btn-win btn-primary"><i class="fas fa-play-circle"></i> Assistir Vídeos</a>
+                <a href="#processadores" class="btn-win btn-secondary"><i class="fas fa-microchip"></i> CPUs Compatíveis</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+        </div>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="py-16 px-6 relative z-10">
+        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="stat-card glass-card reveal" style="border-radius:18px;">
+                <div class="stat-number" data-count="1.4">0</div>
+                <p class="stat-label">Bilhões de Dispositivos</p>
+            </div>
+            <div class="stat-card glass-card reveal" style="border-radius:18px;">
+                <div class="stat-number" data-count="200">0</div>
+                <p class="stat-label">Países Disponível</p>
+            </div>
+            <div class="stat-card glass-card reveal" style="border-radius:18px;">
+                <div class="stat-number" data-count="110">0</div>
+                <p class="stat-label">Idiomas Suportados</p>
+            </div>
+            <div class="stat-card glass-card reveal" style="border-radius:18px;">
+                <div class="stat-number" data-count="99.9">0</div>
+                <p class="stat-label">% Compatibilidade</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="py-24 px-6 relative z-10" id="recursos">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="reveal">
+                <span class="section-label"><i class="fas fa-sparkles"></i> Novidades</span>
+                <h2 class="section-title text-glow">Recursos do Windows 11</h2>
+                <div class="section-line"></div>
+                <p class="section-desc">Cada detalhe foi repensado para tornar sua experiência mais produtiva, criativa e segura.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="feature-card glass-card glow-border reveal-left text-left" style="border-radius:20px;">
+                    <div class="feature-icon float-icon" style="background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.05);"><i class="fas fa-layer-group text-blue-400"></i></div>
+                    <h3 class="text-sm font-bold text-white mb-2">Snap Layouts</h3>
+                    <p style="color:rgba(255,255,255,0.28);font-size:11.5px;line-height:1.8;">Organize janelas com layouts inteligentes. Multitarefa nunca foi tão fácil e produtiva.</p>
+                </div>
+                <div class="feature-card glass-card glow-border reveal text-left" style="border-radius:20px;">
+                    <div class="feature-icon float-icon" style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.05);"><i class="fas fa-desktop text-purple-400"></i></div>
+                    <h3 class="text-sm font-bold text-white mb-2">Desktops Virtuais</h3>
+                    <p style="color:rgba(255,255,255,0.28);font-size:11.5px;line-height:1.8;">Crie espaços personalizados para trabalho, estudo e diversão totalmente separados.</p>
+                </div>
+                <div class="feature-card glass-card glow-border reveal-right text-left" style="border-radius:20px;">
+                    <div class="feature-icon float-icon" style="background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.05);"><i class="fas fa-gamepad text-cyan-400"></i></div>
+                    <h3 class="text-sm font-bold text-white mb-2">Auto HDR & DirectStorage</h3>
+                    <p style="color:rgba(255,255,255,0.28);font-size:11.5px;line-height:1.8;">Gaming de próxima geração com carregamentos ultrarrápidos e gráficos HDR automáticos.</p>
+                </div>
+                <div class="feature-card glass-card glow-border reveal-left text-left" style="border-radius:20px;">
+                    <div class="feature-icon float-icon" style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.05);"><i class="fas fa-robot text-green-400"></i></div>
+                    <h3 class="text-sm font-bold text-white mb-2">Copilot AI</h3>
+                    <p style="color:rgba(255,255,255,0.28);font-size:11.5px;line-height:1.8;">IA integrada para auxiliar em tarefas, criar conteúdo e aumentar sua produtividade diária.</p>
+                </div>
+                <div class="feature-card glass-card glow-border reveal text-left" style="border-radius:20px;">
+                    <div class="feature-icon float-icon" style="background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.05);"><i class="fas fa-shield-alt text-red-400"></i></div>
+                    <h3 class="text-sm font-bold text-white mb-2">Segurança Avançada</h3>
+                    <p style="color:rgba(255,255,255,0.28);font-size:11.5px;line-height:1.8;">TPM 2.0, Secure Boot e Windows Hello com biometria para proteção máxima dos dados.</p>
+                </div>
+                <div class="feature-card glass-card glow-border reveal-right text-left" style="border-radius:20px;">
+                    <div class="feature-icon float-icon" style="background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.05);"><i class="fas fa-store text-amber-400"></i></div>
+                    <h3 class="text-sm font-bold text-white mb-2">Nova Microsoft Store</h3>
+                    <p style="color:rgba(255,255,255,0.28);font-size:11.5px;line-height:1.8;">Redesenhada com suporte a apps Android, PWA e aplicativos Win32 tradicionais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ VIDEOS ============ -->
+    <section class="py-24 px-6 relative z-10" id="video">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="reveal">
+                <span class="section-label"><i class="fas fa-play-circle"></i> Assista</span>
+                <h2 class="section-title text-glow">Introdução ao Windows 11</h2>
+                <div class="section-line"></div>
+                <p class="section-desc">Veja como o Windows 11 redefine a experiência do computador pessoal.</p>
+            </div>
+            <div class="reveal-scale">
+                <div class="video-container" style="max-width:860px;margin:0 auto;">
+                    <div class="video-glow"></div>
+                    <div class="video-responsive">
+                        <iframe src="https://www.youtube.com/embed/Uh9643c2P6k?si=QjuC2KpBLxu0dm26&rel=0&modestbranding=1" title="Introdução Windows 11" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <p style="color:rgba(255,255,255,0.12);font-size:10px;margin-top:18px;" class="reveal"><i class="fas fa-info-circle mr-1"></i> Vídeo oficial de introdução do Windows 11 — Microsoft</p>
+
+            <!-- Video 1155 do ET -->
+            <div class="mt-20 reveal">
+                <div class="flex items-center justify-center gap-4 mb-5">
+                    <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="1155 do ET" class="et-avatar">
+                    <div class="text-left">
+                        <span class="section-label" style="background:rgba(239,68,68,0.04);border-color:rgba(239,68,68,0.06);color:#f87171;margin-bottom:0;font-size:9px;"><i class="fas fa-tools"></i> Otimização</span>
+                    </div>
+                </div>
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-3" style="letter-spacing:-0.5px;">Instalação e Otimização via <span class="neon-line" style="color:#f87171;">Política de Grupo</span></h3>
+                <p style="color:rgba(255,255,255,0.22);font-size:12.5px;max-width:500px;margin:0 auto 32px;line-height:1.85;">Vídeo do canal <strong style="color:#f87171;">1155 do ET</strong> mostrando como instalar e otimizar o Windows 11 usando apenas a Política de Grupo Local (gpedit.msc).</p>
+            </div>
+            <div class="reveal-scale">
+                <div class="video-container" style="max-width:860px;margin:0 auto;">
+                    <div class="video-glow" style="background:linear-gradient(135deg, #ef4444, #f97316, #eab308, #ef4444);background-size:400% 400%;animation:borderGlow 5s ease-in-out infinite;"></div>
+                    <div class="video-responsive">
+                        <iframe src="https://www.youtube.com/embed/kQM-iv7TQz0?si=c-bdgnvo_6cI9s3i&rel=0&modestbranding=1" title="1155 do ET - Otimização Windows 11" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3 mt-6 reveal">
+                <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="1155 do ET" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(239,68,68,0.15);">
+                <div class="text-left">
+                    <p class="text-white text-xs font-bold">1155 do ET</p>
+                    <p style="color:rgba(255,255,255,0.18);font-size:9.5px;">Otimização via Política de Grupo Local</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ PROCESSADORES ============ -->
+    <section class="py-24 px-6 relative z-10" id="processadores">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="reveal">
+                <span class="section-label"><i class="fas fa-microchip"></i> Compatibilidade</span>
+                <h2 class="section-title text-glow">Processadores Compatíveis</h2>
+                <div class="section-line"></div>
+                <p class="section-desc">Confira quais processadores Intel e AMD Ryzen suportam oficialmente o Windows 11.</p>
+            </div>
+            <div class="flex justify-center gap-2 mb-12 reveal">
+                <button class="tab-btn active" onclick="showTab('todos')"><i class="fas fa-microchip mr-1"></i> Todos</button>
+                <button class="tab-btn" onclick="showTab('intel')"><i class="fab fa-intel mr-1" style="color:#0078D4;"></i> Intel</button>
+                <button class="tab-btn" onclick="showTab('amd')"><i class="fas fa-fire mr-1" style="color:#ef4444;"></i> AMD</button>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="cpu-card intel glass-card glow-border reveal-left" id="intel-card" style="border-radius:20px;">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(0,120,212,0.06);border:1px solid rgba(0,120,212,0.06);"><i class="fab fa-intel text-xl text-blue-400"></i></div>
+                        <div class="text-left">
+                            <h3 class="text-white font-bold text-sm">Intel Core</h3>
+                            <p style="color:#60a5fa;font-size:9.5px;font-weight:600;">8ª Geração em diante</p>
+                        </div>
+                    </div>
+                    <div class="text-left mb-3">
+                        <p style="font-size:9px;color:rgba(255,255,255,0.28);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;"><i class="fas fa-check-circle text-green-400 mr-1"></i> Suportados</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>8ª Gen (Coffee Lake)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>9ª Gen (Coffee Lake-R)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>10ª Gen (Comet/Ice Lake)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>11ª Gen (Rocket/Tiger Lake)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>12ª Gen (Alder Lake)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>13ª Gen (Raptor Lake)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>14ª Gen (Raptor Lake-R)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Core Ultra (Meteor Lake)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Core Ultra 200 (Arrow Lake)</span>
+                        </div>
+                    </div>
+                    <div class="text-left mb-3">
+                        <p style="font-size:9px;color:rgba(255,255,255,0.28);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;"><i class="fas fa-times-circle text-red-400 mr-1"></i> Não Suportados</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="cpu-gen unsupported">1ª~7ª Gen</span>
+                            <span class="cpu-gen unsupported">Pentium/Celeron (antigos)</span>
+                        </div>
+                    </div>
+                    <div class="text-left p-3.5 rounded-xl" style="background:rgba(0,120,212,0.02);border:1px solid rgba(0,120,212,0.03);">
+                        <p style="font-size:9.5px;color:rgba(255,255,255,0.28);line-height:1.7;"><i class="fas fa-lightbulb text-blue-400 mr-1"></i> <strong style="color:#60a5fa;">Exemplos:</strong> i3-8100, i5-9600K, i7-10700K, i5-11400, i5-12400F, i7-13700K, i9-14900K, Core Ultra 7 155H, Core Ultra 9 285K</p>
+                    </div>
+                </div>
+                <div class="cpu-card amd glass-card glow-border reveal-right" id="amd-card" style="border-radius:20px;">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div style="width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.06);"><i class="fas fa-fire text-xl text-red-400"></i></div>
+                        <div class="text-left">
+                            <h3 class="text-white font-bold text-sm">AMD Ryzen</h3>
+                            <p style="color:#f87171;font-size:9.5px;font-weight:600;">Ryzen 2000 em diante (Zen+)</p>
+                        </div>
+                    </div>
+                    <div class="text-left mb-3">
+                        <p style="font-size:9px;color:rgba(255,255,255,0.28);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;"><i class="fas fa-check-circle text-green-400 mr-1"></i> Suportados</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 2000 (Zen+)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 3000 (Zen 2)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 4000 (Zen 2 APU)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 5000 (Zen 3)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 7000 (Zen 4)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 8000 (Zen 4 APU)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen 9000 (Zen 5)</span>
+                            <span class="cpu-gen supported"><i class="fas fa-check mr-1"></i>Ryzen AI 300 (Strix Point)</span>
+                        </div>
+                    </div>
+                    <div class="text-left mb-3">
+                        <p style="font-size:9px;color:rgba(255,255,255,0.28);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;"><i class="fas fa-times-circle text-red-400 mr-1"></i> Não Suportados</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="cpu-gen unsupported">Ryzen 1000 (Zen 1)</span>
+                            <span class="cpu-gen unsupported">FX Series</span>
+                            <span class="cpu-gen unsupported">Athlon (antigos)</span>
+                        </div>
+                    </div>
+                    <div class="text-left p-3.5 rounded-xl" style="background:rgba(239,68,68,0.02);border:1px solid rgba(239,68,68,0.03);">
+                        <p style="font-size:9.5px;color:rgba(255,255,255,0.28);line-height:1.7;"><i class="fas fa-lightbulb text-red-400 mr-1"></i> <strong style="color:#f87171;">Exemplos:</strong> Ryzen 3 2200G, Ryzen 5 3600, Ryzen 7 3700X, Ryzen 5 5600X, Ryzen 7 5800X3D, Ryzen 5 7600X, Ryzen 7 7800X3D, Ryzen 9 9950X</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Requisitos -->
+            <div class="mt-6 reveal">
+                <div class="cpu-card glass-card glow-border" style="border-radius:20px;border-color:rgba(108,99,255,0.04);">
+                    <div class="flex items-center gap-3 mb-5 justify-center">
+                        <div style="width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.06);"><i class="fas fa-clipboard-list text-purple-400"></i></div>
+                        <h3 class="text-white font-bold text-sm">Requisitos Mínimos do Sistema</h3>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="text-center p-4 rounded-xl glass-card" style="border-radius:14px;">
+                            <i class="fas fa-microchip text-blue-400 text-lg mb-2"></i>
+                            <p class="text-white text-xs font-bold">1 GHz+</p>
+                            <p style="color:rgba(255,255,255,0.18);font-size:9.5px;">2+ núcleos, 64-bit</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl glass-card" style="border-radius:14px;">
+                            <i class="fas fa-memory text-purple-400 text-lg mb-2"></i>
+                            <p class="text-white text-xs font-bold">4 GB RAM</p>
+                            <p style="color:rgba(255,255,255,0.18);font-size:9.5px;">Mínimo necessário</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl glass-card" style="border-radius:14px;">
+                            <i class="fas fa-hdd text-cyan-400 text-lg mb-2"></i>
+                            <p class="text-white text-xs font-bold">64 GB</p>
+                            <p style="color:rgba(255,255,255,0.18);font-size:9.5px;">Armazenamento mínimo</p>
+                        </div>
+                        <div class="text-center p-4 rounded-xl glass-card" style="border-radius:14px;">
+                            <i class="fas fa-shield-alt text-green-400 text-lg mb-2"></i>
+                            <p class="text-white text-xs font-bold">TPM 2.0</p>
+                            <p style="color:rgba(255,255,255,0.18);font-size:9.5px;">+ Secure Boot (UEFI)</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 rounded-xl flex items-center gap-3" style="background:rgba(250,204,21,0.015);border:1px solid rgba(250,204,21,0.03);">
+                        <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="ET" style="width:24px;height:24px;border-radius:50%;border:1px solid rgba(239,68,68,0.1);">
+                        <p style="color:rgba(255,255,255,0.2);font-size:9.5px;line-height:1.6;text-align:left;"><i class="fas fa-exclamation-triangle text-yellow-500 mr-1"></i> <strong style="color:rgba(250,204,21,0.5);">Nota:</strong> É possível instalar em CPUs não suportadas via métodos do <strong style="color:#f87171;">1155 do ET</strong>, porém sem garantia de atualizações oficiais.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ COMPARISON ============ -->
+    <section class="py-24 px-6 relative z-10" id="comparativo">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="reveal">
+                <span class="section-label"><i class="fas fa-exchange-alt"></i> Comparativo</span>
+                <h2 class="section-title text-glow">Windows 10 vs Windows 11</h2>
+                <div class="section-line"></div>
+                <p class="section-desc">As diferenças entre as duas gerações do sistema mais popular do mundo.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-5">
+                <div class="compare-card win10-card glass-card glow-border reveal-left" style="border-radius:22px;">
+                    <div class="compare-header win10-bg">
+                        <img src="https://imgs.search.brave.com/a3yBCaxVsJk2x2d28knv40YTb2_EoY305NXgbPW-n5M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kaWdp/dGFsYWxsaWFuY2Uu/Y28uaWQvd3AtY29u/dGVudC91cGxvYWRz/LzIwMjEvMDgvbG9n/by13aW5kb3dzLTEw/LTMwMHgzMDAucG5n" alt="Windows 10" class="compare-logo" style="filter:drop-shadow(0 0 18px rgba(0,120,212,0.3));">
+                        <h3 class="text-base font-bold text-white">Windows 10</h3>
+                        <p style="color:rgba(96,165,250,0.35);font-size:9.5px;margin-top:3px;font-weight:500;">Lançado em Julho 2015</p>
+                    </div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Menu Iniciar</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Esquerdo + Live Tiles</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Design</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Fluent Design v1</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Cantos</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Retangulares</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Gaming</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">DirectX 12</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">IA Integrada</span><span class="compare-badge badge-no"><i class="fas fa-times mr-1"></i>Não</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Apps Android</span><span class="compare-badge badge-no"><i class="fas fa-times mr-1"></i>Não</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Snap Layouts</span><span class="compare-badge badge-partial"><i class="fas fa-minus mr-1"></i>Básico</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Widgets</span><span class="compare-badge badge-no"><i class="fas fa-times mr-1"></i>Não</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">CPU Mínima</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Qualquer x64</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Suporte</span><span style="color:#f87171;font-weight:700;font-size:9.5px;">Até Out/2025 ⚠️</span></div>
+                </div>
+                <div class="compare-card win11-card glass-card glow-border reveal-right" style="border-radius:22px;border-color:rgba(108,99,255,0.035);">
+                    <div class="compare-header win11-bg">
+                        <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" alt="Windows 11" class="compare-logo" style="filter:drop-shadow(0 0 18px rgba(108,99,255,0.3));">
+                        <h3 class="text-base font-bold text-white">Windows 11</h3>
+                        <p style="color:rgba(167,139,250,0.35);font-size:9.5px;margin-top:3px;font-weight:500;">Lançado em Outubro 2021</p>
+                    </div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Menu Iniciar</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Centralizado + Pins</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Design</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Fluent v2 + Mica</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Cantos</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Arredondados</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Gaming</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">DX12 Ultimate + Auto HDR</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">IA Integrada</span><span class="compare-badge badge-yes"><i class="fas fa-check mr-1"></i>Copilot</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Apps Android</span><span class="compare-badge badge-yes"><i class="fas fa-check mr-1"></i>Sim</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Snap Layouts</span><span class="compare-badge badge-yes"><i class="fas fa-check mr-1"></i>Avançado</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Widgets</span><span class="compare-badge badge-yes"><i class="fas fa-check mr-1"></i>Sim</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">CPU Mínima</span><span class="text-gray-300 font-medium" style="font-size:10.5px;">Intel 8ª / Ryzen 2000+</span></div>
+                    <div class="compare-item"><span style="color:var(--text-secondary);">Suporte</span><span style="color:#4ade80;font-weight:700;font-size:9.5px;">Até 2031+ ✅</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ CANAL 1155 DO ET ============ -->
+    <section class="py-24 px-6 relative z-10" id="canal">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="reveal">
+                <span class="section-label" style="background:rgba(239,68,68,0.04);border-color:rgba(239,68,68,0.06);color:#f87171;"><i class="fab fa-youtube"></i> Canal Recomendado</span>
+                <h2 class="section-title text-glow" style="background:linear-gradient(135deg, #fff 15%, #f87171 45%, #f97316 75%);-webkit-background-clip:text;background-clip:text;">1155 do ET</h2>
+                <div class="section-line" style="background:var(--win-gradient-warm);box-shadow:0 0 12px rgba(239,68,68,0.3);"></div>
+                <p class="section-desc">Canal especializado em otimização, instalação e dicas avançadas de Windows.</p>
+            </div>
+            <div class="reveal">
+                <div class="glass-card glow-border p-6 mb-8" style="border-radius:20px;max-width:480px;margin:0 auto 32px;border-color:rgba(239,68,68,0.04);">
+                    <div class="flex items-center gap-4">
+                        <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="1155 do ET" class="et-avatar">
+                        <div class="text-left flex-1">
+                            <h3 class="text-white font-bold text-base">1155 do ET</h3>
+                            <p style="color:rgba(255,255,255,0.22);font-size:10.5px;">YouTube Channel • Otimização & Windows</p>
+                            <div class="flex items-center gap-1.5 mt-2">
+                                <span style="font-size:8.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(239,68,68,0.06);color:#f87171;border:1px solid rgba(239,68,68,0.08);"><i class="fab fa-youtube mr-1"></i>YouTube</span>
+                                <span style="font-size:8.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:rgba(34,197,94,0.06);color:#4ade80;border:1px solid rgba(34,197,94,0.08);"><i class="fas fa-check mr-1"></i>Verificado</span>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/@1155doet" target="_blank" style="padding:8px 16px;border-radius:10px;background:rgba(239,68,68,0.1);color:#f87171;font-size:11px;font-weight:700;border:1px solid rgba(239,68,68,0.1);text-decoration:none;transition:all 0.3s;white-space:nowrap;" onmouseover="this.style.background='rgba(239,68,68,0.2)';this.style.borderColor='rgba(239,68,68,0.3)'" onmouseout="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.1)'"><i class="fab fa-youtube mr-1"></i> Inscrever-se</a>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal-scale">
+                <div class="channel-container" style="max-width:860px;margin:0 auto;">
+                    <div class="video-glow" style="background:linear-gradient(135deg, #ef4444, #f97316, #eab308, #ef4444, #f97316);background-size:400% 400%;animation:borderGlow 5s ease-in-out infinite;"></div>
+                    <div class="channel-responsive">
+                        <iframe src="https://www.youtube.com/@1155doet" title="Canal 1155 do ET" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-7 reveal">
+                <a href="https://www.youtube.com/@1155doet" target="_blank" class="btn-win btn-primary" style="background:linear-gradient(135deg,#ef4444,#f97316);">
+                    <i class="fab fa-youtube"></i> Visitar Canal no YouTube
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ TIMELINE ============ -->
+    <section class="py-24 px-6 relative z-10" id="timeline">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="reveal">
+                <span class="section-label"><i class="fas fa-clock"></i> Evolução</span>
+                <h2 class="section-title text-glow">A Jornada do Windows</h2>
+                <div class="section-line"></div>
+                <p class="section-desc">Do Windows 10 ao Windows 11 — cada marco que transformou a computação pessoal.</p>
+            </div>
+            <div class="timeline text-left">
+                <div class="timeline-item glass-card mb-5 reveal" style="border-radius:16px;">
+                    <div class="timeline-dot"></div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <img src="https://imgs.search.brave.com/a3yBCaxVsJk2x2d28knv40YTb2_EoY305NXgbPW-n5M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kaWdp/dGFsYWxsaWFuY2Uu/Y28uaWQvd3AtY29u/dGVudC91cGxvYWRz/LzIwMjEvMDgvbG9n/by13aW5kb3dzLTEw/LTMwMHgzMDAucG5n" style="width:16px;height:16px;filter:drop-shadow(0 0 6px rgba(0,120,212,0.4));" alt="Win10">
+                        <p style="color:#60a5fa;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;">Julho 2015</p>
+                    </div>
+                    <h4 class="text-white text-sm font-bold mb-1.5">Lançamento do Windows 10</h4>
+                    <p style="color:rgba(255,255,255,0.22);font-size:10.5px;line-height:1.8;">A Microsoft lança o Windows 10 como "o último Windows" com atualizações contínuas.</p>
+                </div>
+                <div class="timeline-item glass-card mb-5 reveal" style="border-radius:16px;">
+                    <div class="timeline-dot"></div>
+                    <p style="color:#60a5fa;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:5px;">2017</p>
+                    <h4 class="text-white text-sm font-bold mb-1.5">Fluent Design System</h4>
+                    <p style="color:rgba(255,255,255,0.22);font-size:10.5px;line-height:1.8;">Introdução do Fluent Design com efeitos de profundidade, luz e materiais translúcidos.</p>
+                </div>
+                <div class="timeline-item glass-card mb-5 reveal" style="border-radius:16px;">
+                    <div class="timeline-dot"></div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" style="width:16px;height:16px;filter:drop-shadow(0 0 6px rgba(108,99,255,0.4));" alt="Win11">
+                        <p style="color:#a78bfa;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;">Junho 2021</p>
+                    </div>
+                    <h4 class="text-white text-sm font-bold mb-1.5">Anúncio do Windows 11</h4>
+                    <p style="color:rgba(255,255,255,0.22);font-size:10.5px;line-height:1.8;">Satya Nadella apresenta o Windows 11 como "a próxima geração do Windows".</p>
+                </div>
+                <div class="timeline-item glass-card mb-5 reveal" style="border-radius:16px;">
+                    <div class="timeline-dot"></div>
+                    <p style="color:#a78bfa;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:5px;">Outubro 2021</p>
+                    <h4 class="text-white text-sm font-bold mb-1.5">Lançamento Oficial</h4>
+                    <p style="color:rgba(255,255,255,0.22);font-size:10.5px;line-height:1.8;">Windows 11 chega ao público com novo design, menu centralizado e cantos arredondados.</p>
+                </div>
+                <div class="timeline-item glass-card mb-5 reveal" style="border-radius:16px;">
+                    <div class="timeline-dot"></div>
+                    <p style="color:#a78bfa;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:5px;">2023</p>
+                    <h4 class="text-white text-sm font-bold mb-1.5">Windows Copilot</h4>
+                    <p style="color:rgba(255,255,255,0.22);font-size:10.5px;line-height:1.8;">A IA chega ao Windows com o Copilot, assistente inteligente integrado ao sistema.</p>
+                </div>
+                <div class="timeline-item glass-card reveal" style="border-radius:16px;">
+                    <div class="timeline-dot"></div>
+                    <p style="color:#22d3ee;font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:5px;">2024–2025</p>
+                    <h4 class="text-white text-sm font-bold mb-1.5">Copilot+ PCs & Recall</h4>
+                    <p style="color:rgba(255,255,255,0.22);font-size:10.5px;line-height:1.8;">Nova categoria de PCs com NPU dedicada e recursos de IA avançados integrados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="win-divider max-w-6xl mx-auto"></div>
+
+    <!-- ============ CTA ============ -->
+    <section class="py-24 px-6 relative z-10 cta-section">
+        <div class="max-w-3xl mx-auto text-center reveal-scale">
+            <div class="acrylic p-10 md:p-14 relative overflow-hidden" style="border-radius:26px;">
+                <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,120,212,0.015),rgba(108,99,255,0.015));"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-center gap-5 mb-7">
+                        <img src="https://imgs.search.brave.com/a3yBCaxVsJk2x2d28knv40YTb2_EoY305NXgbPW-n5M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kaWdp/dGFsYWxsaWFuY2Uu/Y28uaWQvd3AtY29u/dGVudC91cGxvYWRz/LzIwMjEvMDgvbG9n/by13aW5kb3dzLTEw/LTMwMHgzMDAucG5n" alt="Windows 10" style="width:48px;height:48px;filter:drop-shadow(0 0 14px rgba(0,120,212,0.25));opacity:0.3;">
+                        <div style="color:rgba(255,255,255,0.12);font-size:20px;"><i class="fas fa-arrow-right"></i></div>
+                        <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" alt="Windows 11" style="width:48px;height:48px;filter:drop-shadow(0 0 22px rgba(108,99,255,0.4));">
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-bold text-white mb-3" style="letter-spacing:-0.5px;">Pronto para Atualizar?</h2>
+                    <p style="color:rgba(255,255,255,0.22);font-size:12px;max-width:420px;margin:0 auto 28px;line-height:1.8;">
+                        O suporte ao Windows 10 termina em outubro de 2025. Atualize e descubra tudo que o Windows 11 tem a oferecer.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="https://www.microsoft.com/windows/windows-11" target="_blank" class="btn-win btn-primary"><i class="fas fa-download"></i> Obter Windows 11</a>
+                        <a href="https://www.youtube.com/@1155doet" target="_blank" class="btn-win btn-secondary" style="border-color:rgba(239,68,68,0.08);">
+                            <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="ET" style="width:18px;height:18px;border-radius:50%;">
+                            Canal 1155 do ET
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer-gradient py-12 px-6 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-5">
+                <div class="flex items-center gap-3">
+                    <img src="https://imgs.search.brave.com/Q-TJlje8WqnZ-ICW-hMAnvxJK--tfmRg3e_1AL1Ze4s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9icmFu/ZGxvZ29zLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMy8x/MC93aW5kb3dzXzEx/LWxvZ29fYnJhbmRs/b2dvcy5uZXRfN2M4/bWEtNTEyeDUxMi5w/bmc" alt="Win11" style="width:16px;height:16px;opacity:0.15;">
+                    <span style="color:rgba(255,255,255,0.12);font-size:9.5px;">© 2025 Projeto Windows. Site informativo não oficial.</span>
+                </div>
+                <div class="flex gap-4 flex-wrap justify-center items-center">
+                    <a href="#inicio" style="color:rgba(255,255,255,0.12);font-size:9.5px;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='rgba(255,255,255,0.12)'">Início</a>
+                    <a href="#recursos" style="color:rgba(255,255,255,0.12);font-size:9.5px;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='rgba(255,255,255,0.12)'">Recursos</a>
+                    <a href="#video" style="color:rgba(255,255,255,0.12);font-size:9.5px;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='rgba(255,255,255,0.12)'">Vídeos</a>
+                    <a href="#processadores" style="color:rgba(255,255,255,0.12);font-size:9.5px;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='rgba(255,255,255,0.12)'">CPUs</a>
+                    <a href="#comparativo" style="color:rgba(255,255,255,0.12);font-size:9.5px;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#60a5fa'" onmouseout="this.style.color='rgba(255,255,255,0.12)'">Comparativo</a>
+                    <a href="https://www.youtube.com/@1155doet" target="_blank" style="color:rgba(255,255,255,0.12);font-size:9.5px;text-decoration:none;transition:color 0.3s;display:flex;align-items:center;gap:4px;" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='rgba(255,255,255,0.12)'">
+                        <img src="https://yt3.ggpht.com/IBC5-STngTXATjS5o3mdAu1Ifdr4qqI8aYF2jobj3CYfquTgIE0blldd8E25MPfveHRz4GdPAg=s88-c-k-c0x00ffffff-no-rj" alt="ET" style="width:14px;height:14px;border-radius:50%;opacity:0.5;">
+                        1155 do ET
+                    </a>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.015);">
+                <p style="color:rgba(255,255,255,0.06);font-size:8.5px;">Ao usar este site você concordou com nossos Termos de Uso e Política de Privacidade.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <script>
+        // ===== GATE SYSTEM =====
+        let captchaCode = '';
+        let currentStep = 1;
+
+        function showTermsTab(tab, el) {
+            document.querySelectorAll('.terms-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('termsContent').style.display = tab === 'termos' ? 'block' : 'none';
+            document.getElementById('privacidadeContent').style.display = tab === 'privacidade' ? 'block' : 'none';
+            document.getElementById('termsScroll').scrollTop = 0;
+            updateTermsProgress();
+        }
+
+        function updateTermsProgress() {
+            const el = document.getElementById('termsScroll');
+            const pct = el.scrollHeight <= el.clientHeight ? 100 : (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+            document.getElementById('termsProgress').style.width = pct + '%';
+        }
+
+        function updateAcceptBtn() {
+            const t = document.getElementById('acceptTerms').checked;
+            const p = document.getElementById('acceptPrivacy').checked;
+            document.getElementById('acceptBtn').disabled = !(t && p);
+        }
+
+        function acceptTermsStep() {
+            if (!document.getElementById('acceptTerms').checked || !document.getElementById('acceptPrivacy').checked) return;
+            goToStep(2);
+            generateCaptcha();
+        }
+
+        function declineTerms() {
+            document.getElementById('gateOverlay').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('deniedOverlay').classList.add('show');
+            }, 400);
+        }
+
+        function goToStep(step) {
+            currentStep = step;
+            document.getElementById('step1').style.display = step === 1 ? 'block' : 'none';
+            document.getElementById('step2').style.display = step === 2 ? 'block' : 'none';
+            document.getElementById('step3').style.display = step === 3 ? 'block' : 'none';
+            document.getElementById('step1dot').className = 'step-dot ' + (step === 1 ? 'active' : step > 1 ? 'done' : '');
+            document.getElementById('step2dot').className = 'step-dot ' + (step === 2 ? 'active' : step > 2 ? 'done' : '');
+            document.getElementById('step3dot').className = 'step-dot ' + (step === 3 ? 'active' : '');
+            const titles = { 1: 'Termos de Uso', 2: 'Verificação de Segurança', 3: 'Bem-vindo!' };
+            const subs = { 1: 'Leia e aceite para continuar — Etapa 1 de 3', 2: 'Prove que você é humano — Etapa 2 de 3', 3: 'Acesso liberado com sucesso' };
+            document.getElementById('gateTitle').textContent = titles[step];
+            document.getElementById('gateSubtitle').textContent = subs[step];
+        }
+
+        // CAPTCHA
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            captchaCode = '';
+            for (let i = 0; i < 5; i++) captchaCode += chars[Math.floor(Math.random() * chars.length)];
+            const canvas = document.getElementById('captchaCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 480; canvas.height = 65;
+            const bg = ctx.createLinearGradient(0, 0, 480, 65);
+            bg.addColorStop(0, '#040410'); bg.addColorStop(0.5, '#060618'); bg.addColorStop(1, '#040410');
+            ctx.fillStyle = bg; ctx.fillRect(0, 0, 480, 65);
+            ctx.strokeStyle = 'rgba(0,120,212,0.02)'; ctx.lineWidth = 0.5;
+            for (let x = 0; x < 480; x += 20) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 65); ctx.stroke(); }
+            for (let y = 0; y < 65; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(480, y); ctx.stroke(); }
+            for (let i = 0; i < 50; i++) {
+                ctx.fillStyle = `rgba(${Math.random()*60+40}, ${Math.random()*100+100}, 255, ${Math.random()*0.06})`;
+                ctx.beginPath(); ctx.arc(Math.random()*480, Math.random()*65, Math.random()*1.8, 0, Math.PI*2); ctx.fill();
+            }
+            for (let i = 0; i < 4; i++) {
+                ctx.strokeStyle = `rgba(0, 120, 212, ${Math.random()*0.04+0.01})`;
+                ctx.lineWidth = 0.5; ctx.beginPath();
+                ctx.moveTo(Math.random()*480, Math.random()*65);
+                ctx.bezierCurveTo(Math.random()*480, Math.random()*65, Math.random()*480, Math.random()*65, Math.random()*480, Math.random()*65);
+                ctx.stroke();
+            }
+            const colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#22c55e', '#a78bfa'];
+            for (let i = 0; i < 5; i++) {
+                ctx.save();
+                ctx.font = `bold ${23+Math.random()*6}px 'JetBrains Mono', monospace`;
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.translate(65 + i * 78, 38 + Math.random()*8 - 4);
+                ctx.rotate((Math.random() - 0.5) * 0.35);
+                ctx.shadowColor = colors[i % colors.length]; ctx.shadowBlur = 10;
+                ctx.fillText(captchaCode[i], 0, 0);
+                ctx.restore();
+            }
+            document.getElementById('captchaInput').value = '';
+            document.getElementById('captchaInput').className = 'captcha-input';
+            document.getElementById('captchaMsg').textContent = '';
+        }
+
+        function verifyCaptcha() {
+            const input = document.getElementById('captchaInput');
+            const msg = document.getElementById('captchaMsg');
+            if (input.value.toUpperCase() === captchaCode) {
+                input.className = 'captcha-input success';
+                msg.innerHTML = '<span style="color:#22c55e"><i class="fas fa-check-circle"></i> Verificado com sucesso!</span>';
+                setTimeout(() => {
+                    goToStep(3);
+                    setTimeout(() => {
+                        document.getElementById('gateOverlay').classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    }, 1300);
+                }, 600);
+            } else {
+                input.className = 'captcha-input error';
+                msg.innerHTML = '<span style="color:#ef4444"><i class="fas fa-exclamation-triangle"></i> Código incorreto. Tente novamente.</span>';
+                setTimeout(() => generateCaptcha(), 1100);
+            }
+        }
+        document.getElementById('captchaInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyCaptcha(); });
+
+        // ===== PARTICLES =====
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['rgba(0,120,212,0.2)', 'rgba(108,99,255,0.15)', 'rgba(0,188,242,0.15)', 'rgba(139,92,246,0.1)'];
+            for (let i = 0; i < 22; i++) {
+                const p = document.createElement('div'); p.className = 'particle';
+                const s = Math.random() * 2.5 + 0.8;
+                p.style.width = s + 'px'; p.style.height = s + 'px';
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 22 + 16) + 's';
+                p.style.animationDelay = (Math.random() * 16) + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // ===== CURSOR GLOW =====
+        let cursorX = 0, cursorY = 0, glowX = 0, glowY = 0;
+        document.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
+        function animateCursor() {
+            glowX += (cursorX - glowX) * 0.08;
+            glowY += (cursorY - glowY) * 0.08;
+            const g = document.getElementById('cursorGlow');
+            g.style.left = glowX + 'px';
+            g.style.top = glowY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+
+        // ===== TYPING EFFECT =====
+        function typeEffect() {
+            const phrases = [
+                'Design moderno e elegante.',
+                'Produtividade redefinida.',
+                'Gaming de próxima geração.',
+                'IA integrada com Copilot.',
+                'Segurança como prioridade.',
+                'Otimize com Política de Grupo.'
+            ];
+            const el = document.getElementById('typingText');
+            let pi = 0, ci = 0, del = false;
+            function type() {
+                const cur = phrases[pi];
+                if (del) { el.textContent = cur.substring(0, ci - 1); ci--; }
+                else { el.textContent = cur.substring(0, ci + 1); ci++; }
+                let spd = del ? 22 : 42;
+                if (!del && ci === cur.length) { spd = 2800; del = true; }
+                else if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; spd = 600; }
+                setTimeout(type, spd);
+            }
+            type();
+        }
+
+        // ===== NAVBAR =====
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const scrollY = window.scrollY;
+            nav.classList.toggle('scrolled', scrollY > 60);
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            if (h > 0) document.getElementById('scrollProgress').style.width = (scrollY / h) * 100 + '%';
+            lastScroll = scrollY;
+        });
+
+        // ===== MOBILE =====
+        function toggleMobile() { document.getElementById('mobileNav').classList.toggle('active'); }
+        function closeMobile() { document.getElementById('mobileNav').classList.remove('active'); }
+
+        // ===== REVEAL =====
+        function revealOnScroll() {
+            const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            revealEls.forEach((el, i) => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) {
+                    el.style.transitionDelay = (i % 6) * 0.07 + 's';
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        // ===== COUNTERS =====
+        function animateCounters() {
+            document.querySelectorAll('.stat-number').forEach(counter => {
+                const target = parseFloat(counter.dataset.count);
+                const rect = counter.getBoundingClientRect();
+                if (rect.top < window.innerHeight && !counter.dataset.animated) {
+                    counter.dataset.animated = 'true';
+                    let current = 0;
+                    const inc = target / 55;
+                    const isDec = target % 1 !== 0;
+                    const timer = setInterval(() => {
+                        current += inc;
+                        if (current >= target) { current = target; clearInterval(timer); }
+                        counter.textContent = isDec ? current.toFixed(1) : Math.floor(current);
+                        if (target === 1.4 && current >= target) counter.textContent = '1.4B';
+                        if (target === 200 && current >= target) counter.textContent = '200+';
+                        if (target === 110 && current >= target) counter.textContent = '110+';
+                        if (target === 99.9 && current >= target) counter.textContent = '99.9%';
+                    }, 30);
+                }
+            });
+        }
+
+        // ===== TABS =====
+        function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.closest('.tab-btn').classList.add('active');
+            const intel = document.getElementById('intel-card');
+            const amd = document.getElementById('amd-card');
+            if (tab === 'todos') { intel.style.display = 'block'; amd.style.display = 'block'; }
+            else if (tab === 'intel') { intel.style.display = 'block'; amd.style.display = 'none'; }
+            else { intel.style.display = 'none'; amd.style.display = 'block'; }
+        }
+
+        // ===== SMOOTH SCROLL LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== INIT =====
+        window.addEventListener('scroll', () => { revealOnScroll(); animateCounters(); });
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            typeEffect();
+            animateCursor();
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => { revealOnScroll(); animateCounters(); }, 400);
+        });
+    </script>
+</body>
+</html>
